@@ -20,7 +20,10 @@ const httpLink = concat(authLink, createHttpLink({
 
 
 const wsLink = new GraphQLWsLink(createWsClient({
-  url: 'ws://localhost:8080/graphql'}));
+  url: 'ws://localhost:8080/graphql', connectionParams : () => ({
+    accessToken: getAccessToken()
+  }),
+}));
 
 export const apolloClient = new ApolloClient({
   link: split( isSubscription, wsLink, httpLink),
